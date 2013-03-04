@@ -80,4 +80,8 @@ print "My name is ", name, ",I am" , Age, "years old and" , height , "meters tal
 printing the above line with the apostrophe can be accomplished by:
     1. using double quotes
     2. using the escape character
-    3. 
+    3. using triple quotes
+'''
+print ''' The cat's mat.'''
+print " The cat's mat."
+print ' The cat\'s mat.'
