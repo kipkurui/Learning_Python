@@ -1,0 +1,7 @@
+# col1=time   col2=temperature col3=density
+100.00,34.5,78
+200.00,22.3,70
+300.00,99.0,34
+400.00,45.2,80
+# This is another comment
+500.00,88.1,89
