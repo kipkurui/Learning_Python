@@ -18,11 +18,13 @@ print i/4
 print i%4
 
 #5.
+print "Please enter a numberbetween 1 and 31 inclusive"
 date = raw_input() 
 daysofweek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 daysofweek = daysofweek*5
 #print daysofweek
 day = daysofweek[int(date)-1]
+print daysofweek
 print day    
 
 #6
