@@ -1,4 +1,3 @@
-"""
 #1. This is an infinite loop bacause i will always be less than 32, it has no stop
 #2 an increment of i so that i reaches a point where i is not a factor of 32
 print "This is question 2"
@@ -284,7 +283,6 @@ if letters1 > letters2:
     print firstphrase
 else:
     print secondphrase
-"""
 #15
 print "This is question15"
 floats = raw_input("Enter a float: ")
