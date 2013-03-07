@@ -18,8 +18,7 @@ print i/4
 print i%4
 
 #5.
-print "Please enter a numberbetween 1 and 31 inclusive"
-date = raw_input() 
+date = raw_input("Please enter a numberbe tween 1 and 31 inclusive") 
 daysofweek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 daysofweek = daysofweek*5
 #print daysofweek
@@ -28,7 +27,7 @@ print daysofweek
 print day    
 
 #6
-x = 'x'*100
+x = 'x'*1000
 print x
 
 #7
