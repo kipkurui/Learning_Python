@@ -21,14 +21,5 @@ for i in range(len(nucleotides)):
     G =G + nucleotides[i].lower().count('g')
     count = (A,T,G,C)
     lists = lists + [count]
-##for i in nucleotides:
-##    C =C + i.lower().count('c')
-##count = count + (C,)
-##for i in nucleotides:
-##    A =A + i.lower().count('a')
-##count = count +(A,)
-##for i in nucleotides:
-##    G =G + i.lower().count('g')
-##count = count + (G,)
-##
-##print count
+
+print lists
