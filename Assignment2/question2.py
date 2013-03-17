@@ -1,9 +1,3 @@
-nucleotides = [
-	"tttacgatcgatgtATCATTgtgatcgtagcgatgtatTATggcggcc",
-	"tttgggta",
-	"tgactgtagcagtcaTATCGATG",
-	"TTTTTGGTTGTGTGCAAGCTCGGCAGACTTt",
-	"ACTGATCGTCGATGCATGTCAGTAGCTAGCCATGTCAGTCAT"]
 def input_seq():
     nucleotides = [raw_input("Enter sequences, blank to stop: " )]
     if nucleotides!="":
