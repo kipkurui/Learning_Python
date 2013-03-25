@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 def menu(response):
     print "*"*80
     print "%s %60s"%("* PDB FILE ANALYZER","*")
@@ -14,7 +15,23 @@ def menu(response):
     print "*      %s %28s"%("6) Export PDB File                       (X)","*")
     print "*      %s %28s"%("7) Exit                                  (Q)","*")
     print "*%79s"%("*")
-    print "*", "Current PDB:%s *".rjust(78," ") % (response)
+    print "* %76s *" % ("Current PDB:"+str(response))#"*", "Current PDB:%s *".rjust(78," ") % (response)
+    print "*"*80
+def menu2(response):
+    print "*"*80
+    print "%s %60s"%("* PDB FILE ANALYZER","*")
+    print "*"*80
+    print "%s %49s"%("* Select an option from below:","*")
+    print "*%79s"% "*"
+    print "*      %s %25s %28s"% ("1) Open a PDB File","(O)","*")
+    print "*%79s"% "*"
+    print "*%79s"% "*"
+    print "*%79s"% "*"
+    print "*%79s"% "*"
+    print "*%79s"% "*"
+    print "*      %s %28s"%("7) Exit                                  (Q)","*")
+    print "*%79s"%("*")
+    print "* %76s *" % ("Current PDB:"+str(response))
     print "*"*80
 
 def validatepath():
@@ -173,31 +190,17 @@ def optionI():
     print "   Sequence:  ",parseSequence(seqB,50)
     PDB =add_to_PDBdict(PDB,"SequenceA",seqA)
     PDB =add_to_PDBdict(PDB,"SequenceB",seqB)
-    #return PDB
 def PDBDict():
-    #print "PDB file: %s"% currentPDB
     title = extractTitle(PDBfile)
     seq= parseSequence(title,80).rstrip()
-    #print seq
-    #print "CHAINS: A and B"
-    #print " - chain A"
     PDB ={}
     PDB =add_to_PDBdict(PDB,"Title",seq)
     seqA= extractSeq(PDBfile,"A")
     PDB =add_to_PDBdict(PDB,"ThreeSeqA",seqA.rstrip())
     seqA = oneto3(seqA.split(" "),threeTO1)
-    #print "   Number of Amino acids:  ",len(seqA)
-    #print "   Number of helix:          ",countHelix(PDBfile,"A")
-    #print "   Number of sheet:          ",countSheet(PDBfile,"A")
-    #print "   Sequence:  ",parseSequence(seqA,50,14)
-    #print " - chain B"
     seqB= extractSeq(PDBfile,"B")
     PDB =add_to_PDBdict(PDB,"ThreeSeqB",seqB.rstrip())
     seqB = oneto3(seqB.split(" "),threeTO1)
-    #print "   Number of Amino acids:  ",len(seqB)
-    #print "   Number of helix:         ",countHelix(PDBfile,"B")
-    #print "   Number of sheet:         ",countSheet(PDBfile,"B")
-    #print "   Sequence:  ",parseSequence(seqB,50)
     PDB =add_to_PDBdict(PDB,"SequenceA",seqA)
     PDB =add_to_PDBdict(PDB,"SequenceB",seqB)
     return PDB                       
@@ -386,7 +389,7 @@ def optionL():
             n = 1
             l=len(sheetLists)
             for i in sheetLists:
-                print "Helix"+str(n)+"of"+str(l)+":"
+                print "Sheet"+str(n)+"of"+str(l)+":"
                 for j in i:
                     print "  %-13s %s"% (j[0],str(j[1]).strip())
                 n +=1
@@ -537,7 +540,7 @@ def writeToFile():
 
 ##############CORE PROGRAM##################################
 currentPDB = None
-menu(currentPDB)
+menu2(currentPDB)
 response = raw_input(":")
 while response!="":
     if response.upper() =="O":
@@ -595,160 +598,26 @@ while response!="":
             elif response.upper()=="R":
                 helixSheets=optionR()
                 response = raw_input("List(L) Edit(E) New(N) Remove(R) Main Menu(M):  ")
-
+            elif response.upper()=="M":
+                response=""
         else:
-            menu(currentPDB)
-            response=raw_input(":")
+             menu(currentPDB)
+             response=raw_input(":")
     elif response.upper()=="X":
-        writeToFile()
-        menu(currentPDB)    
-        response = raw_input(":")
-
-##    else:
-##        menu(currentPDB)
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""if response.upper()=="M":
-    print "Choose one of the Manipulation Options: "
-    print "List(L)  Edit(E)  New(N)  Remove(R)  Main Menu(M)"
-    response = raw_input(":")
-    while response!="":
-        if response.upper() == "L":
-            response =raw_input("Do you want to list the Helix (H) or the Sheet (S): ")
-            if response.upper() == "S":
-                n = 1
-                l=len(sheetLists)
-                for i in sheetLists:
-                    print "Helix"+str(n)+"of"+str(l)+":"
-                    for j in i:
-                        print "  %-13s %s"% (j[0],str(j[1]).strip())
-                    n +=1
-                    response =raw_input("Do you want to list the Helix (H) or the Sheet (S): ")
-            elif response.upper() == "H":
-                n = 1
-                l=len(helixLists)
-                for i in range(len(helixLists)):
-                    print "Helix"+str(n)+"of"+str(l)+":"
-                    if helixLists[i][10][1]=='1':
-                        helixLists[i][10][1]="Right-handed alpha"
-                    for j in helixLists[i]:
-                        if j[0] =="helixClass:" and j[1]==1:
-                            j[1]="Right-handed alpha"
-                        print "  %-13s %s"% (j[0],str(j[1]).strip())
-                    n +=1
-            else:
-                print "Choose one of the Manipulation Options:\nList(L) Edit(E) New(N) Remove(R) Main Menu(M)"
-                response =raw_input(":")
-        elif response.upper()=="E":
-            feature=raw_input("Do you want to edit a Helix (H) or a Sheet (S): ")
-            while feature!="":
-                if feature.upper()=="H":
-                    feature="Helix"
-                    response=raw_input("Which Helix do you want to edit 1-"+str(len(helixSheets["Helix"])))
-                    while response!="":
-                        Helix=edit(response,feature)
-                        response=raw_input("Which Helix do you want to edit (1-"+str(len(helixSheets["Helix"])))
-                    else:
-                        feature=raw_input("Do you want to edit a Helix (H) or a Sheet (S): ")
-                elif feature.upper()=="S":
-                    feature="Sheet"
-                    response=raw_input("Which Sheet do you want to edit 1-"+str(len(helixSheets["Sheet"])))
-                    while response!="":
-                        Sheet=editsheet(response,feature)
-                        response=raw_input("Which sheet do you want to edit (1-"+str(len(helixSheets["Sheet"]))+"): ")
-                else:
-                    #feature=raw_input("Do you want to edit a Helix (H) or a Sheet (S): ")
-                    print "Choose one of the Manipulation Options:"
-                    response=raw_input("List(L) Edit(E) New(N) Remove(R) Main Menu(M")
-        elif response.upper()=="N":
-            response=raw_input("Do you want to add a Helix (H) or a Sheet (S): ")
-            while response!="":
-                if response.upper()=="H":
-                    n=len(helixSheets["Helix"])+1
-                    helixSheets["Helix"]+=[[["serNum:",int(n)],["helixID:",int()],
-                                          ["initResName:",""],["initChainID:","A"],
-                                          ["initSeqNum:",int(1)],["initICode:",None],
-                                          ["endResName:",None],["endChainID:",None],
-                                          ["endSeqNum:",None],["endICode:",None],
-                                          ["helixClass:",int(1)],["comment:",""],
-                                          ["length:",int(1)]]]
-                    response=len(helixSheets["Helix"])
-                    feature= "Helix"
-                    Helix=edit(response,feature,"created")
-                    response=raw_input("Do you want to add a Helix (H) or a Sheet (S): ")
-                elif response.upper()=="S":
-                    helixSheets["Sheet"] +=[[["strand:",None],["sheetID:",None],
-                                               ["numStrands",None],["initResName:",None],
-                                               ["initChainID:",None],
-                                              ["initSeqNum:",int(1)],["initICode:",None],
-                                              ["endResName:",None],["endChainID:",None],
-                                              ["endSeqNum:",int(1)],["endICode:",None],
-                                              ["sense:",None],["curAtom:",None],
-                                               ["curResName:",None],["curChainId:",None],
-                                            ["curResSeq:",None],["curIcode:",None],
-                                              ["prevAtom:",None],["prevResName:",None],
-                                               ["prevChainId:",None],["prevResSeq:",None],
-                                               ["prevICode:",None]]]
-                    response=len(helixSheets["Sheet"])
-                    feature= "Sheet"
-                    Helix=editsheet(response,feature,"created")
-                    response=raw_input("Do you want to edit a Helix (H) or a Sheet (S): ")
-                else:
-                    print "Choose one of the Manipulation Options:\nList(L) Edit(E) New(N) Remove(R) Main Menu(M)"
-                    response =raw_input(":")
-        elif response.upper()=="R":
-            response=raw_input("Do you want to remove a Helix (H) or a Sheet (S): ")
-            while response!="":
-                if response.upper()=="H":
-                    response=raw_input("Which Helix do you want to delete (1-"+str(len(helixSheets["Helix"]))+"): ")
-                    n=int(response)-1
-                    a=confirmH()
-                    while response!="":
-                        response=raw_input("Are you sure do you want to delete the helix? \n"+str(a)+"\n Y/N? ")
-                        if response.upper()=="Y":
-                            helixSheets["Helix"].remove(helixSheets["Helix"][n])
-                            print "Helix",int(n)+1,"successfully removed"
-                            print "All serial numbers have been updated"
-                            response=raw_input("Which Helix do you want to delete (1-"+str(len(helixSheets["Helix"]))+"): ")
-                    response=raw_input("Do you want to remove a Helix (H) or a Sheet (S): ")
-                elif response.upper() =="S":
-                    response=raw_input("Which Sheet do you want to delete (1-"+str(len(helixSheets["Sheet"]))+"): ")
-                    while response!="":
-                        if int(response)==int(response):
-                            n=int(response)-1
-                            a=confirmS()
-                            print a
-                            response=raw_input("Y/N? ")
-                            if response.upper()=="Y":
-                                helixSheets["Sheet"].remove(helixSheets["Sheet"][n])
-                                response=response=raw_input("Which Sheet do you want to delete (1-"+str(len(helixSheets["Sheet"]))+"): ")
-            else:
-                print "Choose one of the Manipulation Options:"
-                response = raw_input("List(L) Edit(E) New(N) Remove(R) Main Menu(M) ")
-        elif response.upper()=="M":
-            menu(currentPDB)
-            response=raw_input(":")
+        while response!="":
+            writeToFile()
+            print "FILE SAVED"
+            response=raw_input("Press [enter] to go back to the menu")
+            #if response =="":
         else:
-            menu(currentPDB)
-if response.upper()=="S":
-    draw_structure()"""
-                        
-                               
-                                                                       
-                                                                           
-
- 
+            menu(currentPDB)    
+            response = raw_input(":")
+    else:
+        if response.upper()=="Q":
+            response=raw_input("Do you want to exit (E) or do you want to go back to menu (M): ")
+            if response.upper()=="E":
+                response=""
+            elif response.upper()=="M":
+                menu(currentPDB)
+                response = raw_input(":")
+            

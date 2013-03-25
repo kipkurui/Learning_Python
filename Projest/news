@@ -586,15 +586,15 @@ FORMUL   3   ZN    2(ZN 2+)
 FORMUL   4   NA    NA 1+                                                        
 FORMUL   5  EDO    2(C2 H6 O2)                                                  
 FORMUL   6  HOH   *159(H2 O)                                                    
-HELIX    1   1 ASN A 44  PHE A 57     1                                    14 
-HELIX    2   2 VAL A 86  TYR A 93     1                                    8 
-HELIX    3   3 GLU A 98  ASN A 119     1                                    22 
-HELIX    4   4 LYS A 127  GLU A 129     5                                    3 
-HELIX    5   5 GLU A 160  TRP A 165     1                                    6 
-HELIX    6   6 ALA A 168  LEU A 173     1                                    6 
-HELIX    7   7 LYS A 180  GLY A 197     1                                    18 
-HELIX    8   8 SER A 205  VAL A 217     1                                    13 
-HELIX    9   9 SER A 221  SER A 231     1                                    11 
+HELIX    1   1 ASN A 44  PHE A 57    Right-handed alpha                                    14 
+HELIX    3   3 GLU A 98  ASN A 119    Right-handed alpha                                    22 
+HELIX    4   4 LYS A 127  GLU A 129    Right-handed 3 - 10                                    3 
+HELIX    5   5 GLU A 160  TRP A 165    Right-handed alpha                                    6 
+HELIX    6   6 ALA A 168  LEU A 173    Right-handed alpha                                    6 
+HELIX    7   7 LYS A 180  GLY A 197    Right-handed alpha                                    18 
+HELIX    8   8 SER A 205  VAL A 217    Right-handed alpha                                    13 
+HELIX    9   9 SER A 221  SER A 231    Right-handed alpha                                    11 
+HELIX   10  10 PRO A 232  ALA A 235    Right-handed 3 - 10                                    4 
 HELIX   10  10 PRO A  232  ALA A  235  5                                   4    
 HELIX   11  11 ASN A  247  TYR A  252  1                                   6    
 HELIX   12  12 ASN A  256  LEU A  267  1                                  12    
