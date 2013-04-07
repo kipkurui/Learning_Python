@@ -1,0 +1,8 @@
+This programs extracts PDB file and performs basic manipulations
+such as adding, editing or removing a helix os sheet.
+
+It also constructs a secondary structure of the protein, 
+and draws an histogram summarising the amino acid respresentation
+in the protein. 
+
+

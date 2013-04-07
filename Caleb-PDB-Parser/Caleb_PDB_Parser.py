@@ -22,7 +22,7 @@ def menu(response):
     print "*      %s %28s"%("6) Export PDB File                       (X)","*")
     print "*      %s %28s"%("7) Exit                                  (Q)","*")
     print "*%79s"%("*")
-    print "* %76s *" % ("Current PDB:"+str(response))#"*", "Current PDB:%s *".rjust(78," ") % (response)
+    print "* %76s *" % ("Current PDB:"+str(response[-8:]))
     print "*"*80
 def menu2(response):
     '''->None
@@ -86,7 +86,7 @@ def optionO(currentPDB):
     var=()
     currentPDB = validatepath()
     PDBfile=validatePDB(currentPDB)
-    print "The File %s has been successfully loaded" %currentPDB
+    print "The File %s has been successfully loaded" %currentPDB[-8:]
     var=(currentPDB,PDBfile)
     return var
 
@@ -189,16 +189,22 @@ def optionI():
     '''->None
     Function displays a summary of information on the PDB file
     '''
-    print "PDB file: %s"% currentPDB
+    print "PDB file: %s"% currentPDB[-8:]
     title = extractTitle(PDBfile)
     seq= parseSequence(title,80).rstrip()
     print seq
     print "CHAINS: ",
     for i in range(len(chainList)):
-        if i==len(chainList)-1:
-            print "and", chainList[i]
+        if len(chainList)== 2:
+            if i==len(chainList)-1:
+                print "and", chainList[i]
+            else:
+                print chainList[i],
         else:
-            print chainList[i],",",
+            if i==len(chainList)-1:
+                print "and", chainList[i]
+            else:
+                print chainList[i],",",
     for i in chainList:
         print " - chain",i
         seq= extractSeq(PDBfile,i)
@@ -327,7 +333,7 @@ def chain(Chain,Helix,Sheet,seq):
     for i, j, k in zip(sequences,structure,labels):
         print i,j,k
 
-def sequence():
+def Sequence():
     '''->str
     Fuction extracts single letter sequence from the PDB file
     '''
@@ -425,12 +431,12 @@ def editSheet(response,feature,action="edited"):
 def creatSheet(response,feature,action="edited"):
     '''->dict
     Edits the sheet and returns the edited sheet for
-    use in optionE
+    use in optionN
     '''
     if response!="": 
         n= int(response)-1
         Sheet= helixSheets[feature][n]
-        Sheet[4][1]=raw_input(Sheet[4][0]+"["+str(Sheet[4][1])+"]: ") 
+        #Sheet[4][1]=raw_input(Sheet[4][0]+"["+str(Sheet[4][1])+"]: ") 
         Sheet[5][1]=int(raw_input(Sheet[5][0][:-1]+"["+str(Sheet[5][1])+"]: "))#initSeqqNo
         Sheet[3][1]=oneTo3[sequence[(int(Sheet[5][1])-1)]]#extract sequence name from dictionary
         print "The position corresponds to amino acid",Sheet[3][1]
@@ -513,7 +519,13 @@ def optionE():
     else:
         print "Choose one of the Manipulation Options"
         return helixSheets
-
+   
+def Increment():
+    Alpha=""
+    for i in range(len(chainList)):
+        if i==len(chainList)-1:
+            Alpha=chr(ord(chainList[i]) + 1)
+    return Alpha
 def optionN():
     '''->dict
     Creates a new helix or sheetreturns the
@@ -524,7 +536,7 @@ def optionN():
         response=raw_input("Do you want to add a Helix (H) or a Sheet (S)[enter] for previous menu: ")
         if response.upper()=="H":
             n=len(helixSheets["Helix"])+1
-            helixSheets["Helix"]+=[[["serNum:",int(n)],["helixID:",int()],
+            helixSheets["Helix"]+=[[["serNum:",int(n)],["helixID:",int(n)],
             ["initResName:",""],["initChainID:","A"],["initSeqNum:",int(1)],["initICode:",""],
             ["endResName:",""],["endChainID:",""],["endSeqNum:",""],["endICode:",""],
             ["helixClass:",int(1)],["comment:",""],["length:",int(1)]]]
@@ -532,9 +544,9 @@ def optionN():
             feature= "Helix"
             Helix=editHelix(response,feature,"created")
         elif response.upper()=="S":
-            helixSheets["Sheet"] +=[[["strand:",""],["sheetID:",""],
-            ["numStrands",""],["initResName:",""],["initChainID:",""],["initSeqNum:",int(1)],["initICode:",""],
-            ["endResName:",""],["endChainID:",""],["endSeqNum:",int(1)],["endICode:",""],["sense:",""],["curAtom:",""],
+            helixSheets["Sheet"] +=[[["strand:","1"],["sheetID:",str(Increment())],
+            ["numStrands","1"],["initResName:",""],["initChainID:",str(Increment())],["initSeqNum:",int(1)],["initICode:",""],
+            ["endResName:",""],["endChainID:",str(Increment())],["endSeqNum:",int(1)],["endICode:",""],["sense:","1"],["curAtom:",""],
             ["curResName:",""],["curChainId:",""],["curResSeq:",""],["curIcode:",""],
             ["prevAtom:",""],["prevResName:",""],["prevChainId:",""],["prevResSeq:",""],["prevICode:",""]]]
             response=len(helixSheets["Sheet"])
@@ -580,17 +592,43 @@ def optionR():
     else:
         print "Choose one of the Manipulation Options"
         return helixSheets
-
+def UpdateSerialS():
+    '''->dic
+    Function that Updtes the serial numbers when a sheet
+    is deleted
+    '''
+    for i in chainList:
+        n=0
+        for j in helixSheets["Sheet"]: 
+            if j[1][1]==i:
+                n+=1
+                j[0][1]=n
+        for j in helixSheets["Sheet"]:
+            if j[1][1]==i:
+                j[2][1]=n
+    return helixSheets
+def updateSerialH():
+    '''->dict
+    Function that Updtes the serial numbers when a sheet
+    is deleted
+    '''
+    n=1
+    for i in range(len(helixSheets["Helix"])):
+        h=helixSheets["Helix"][i]
+        h[0][1]=n
+        h[1][1]=n
+        n+=1
+    return helixSheets
 def writeToFile():
     '''->file
     writes a new PDB file form the old one replacing
     the edited the new and edited helix and or sheet
-    and adding current date to the header
+    and adding current date to the header and updating unique ID
     '''
     PDBfile.seek(0)
     flag=True
     while flag:
-        path = raw_input("Filepath: ")
+        path = raw_input("Filepath(4 letter alphanmeric): ").upper()+".pdb"
         new = open(path, "w")
         if os.path.exists:
             ask = raw_input("Do you want to overwrite the file "+path+"?(Y/N) ")
@@ -600,7 +638,13 @@ def writeToFile():
                 flag=True
     for line in PDBfile:
         if line.startswith("HEADER"):
-            line = line[0:50]+time.strftime("%d/%m/%Y")+line[60:]
+            line = line[0:50]+time.strftime("%d/%m/%Y")+line[60:62]+str(path[:4])+"\n"
+            new.write(line)
+        elif line.startswith("DBREF"):
+            line=line[:7]+str(path[:4])+line[11:]
+            new.write(line)
+        elif line.startswith("SEQADV"):
+            line=line[:7]+str(path[:4])+line[11:]
             new.write(line)
         elif line.startswith("HELIX") and line[7:10].strip()==str(1):
             for i in range(len(helixSheets["Helix"])):
@@ -669,12 +713,14 @@ while response.upper() in choices:
                     5:"Right-handed 3 - 10",6:"Left-handed alpha",7:"Left-handed omega",8:"Left-handed gamma",
                     9:"2 - 7 ribbon/helix",10:"Polyproline"}
             PDB=PDBDict()#stores the chains sequences data in a dictionary
-            sequence = sequence()
+            sequence = Sequence()
         if response.upper() == "I":
             optionI()
         if response.upper() =="H":
             optionH()
         if response.upper() == "S":
+            helixSheets=updateSerialH()
+            helixSheets=UpdateSerialS()
             optionS()
         if response.upper()=="M":
             print "Choose one of the Manipulation Options \n List(L)  Edit(E)  New(N)  Remove(R)  Main Menu(M)"
@@ -682,12 +728,13 @@ while response.upper() in choices:
             while entry!="":
                 if entry.upper() == "L":
                     optionL()
-                    entry =raw_input(":")#insert after calling the above function
+                    entry =raw_input(":")
                 elif entry.upper()=="E":
                     helixSheets=optionE()
                     entry=raw_input("List(L) Edit(E) New(N) Remove(R) Main Menu(M): ")
                 elif entry.upper()=="N":
                     helixSheets=optionN()
+                    #chainList+=[Increment()]
                     entry =raw_input(":")
                 elif entry.upper()=="R":
                     helixSheets=optionR()
@@ -695,6 +742,8 @@ while response.upper() in choices:
                 else:
                     entry=""
         if response.upper()=="X":
+            helixSheets=updateSerialH()
+            helixSheets=UpdateSerialS()
             entry=response
             while entry!="":
                 writeToFile()   
@@ -710,3 +759,6 @@ while response.upper() in choices:
     else:
         print "Error invalid choice"
         response="Q"
+##################################################END OF PROGRAM#####################################################
+#                   Thank you so much for Helping Me understand Python                                              #
+#####################################################################################################################
