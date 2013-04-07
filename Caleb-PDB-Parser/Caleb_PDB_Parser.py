@@ -436,7 +436,6 @@ def creatSheet(response,feature,action="edited"):
     if response!="": 
         n= int(response)-1
         Sheet= helixSheets[feature][n]
-        #Sheet[4][1]=raw_input(Sheet[4][0]+"["+str(Sheet[4][1])+"]: ") 
         Sheet[5][1]=int(raw_input(Sheet[5][0][:-1]+"["+str(Sheet[5][1])+"]: "))#initSeqqNo
         Sheet[3][1]=oneTo3[sequence[(int(Sheet[5][1])-1)]]#extract sequence name from dictionary
         print "The position corresponds to amino acid",Sheet[3][1]
@@ -734,7 +733,6 @@ while response.upper() in choices:
                     entry=raw_input("List(L) Edit(E) New(N) Remove(R) Main Menu(M): ")
                 elif entry.upper()=="N":
                     helixSheets=optionN()
-                    #chainList+=[Increment()]
                     entry =raw_input(":")
                 elif entry.upper()=="R":
                     helixSheets=optionR()
