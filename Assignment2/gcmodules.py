@@ -41,3 +41,10 @@ def replace(lists):
         i=i.replace('A','a')
         nucs = nucs + [i]
     return nucs
+def parseSequence(sequence,noperline):
+    seq = ""
+    i = 0
+    while i <len(sequence):
+        seq+= seq[i:i+noperline]+"\n"
+        i += noperline
+    return seq

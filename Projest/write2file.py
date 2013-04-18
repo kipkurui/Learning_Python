@@ -7,32 +7,33 @@ def writeToFile():
     new = open("newpdb.pdb", "w")
     n=1  
     for line in PDBfile:
-    if line.startswith("HEADER"):
-        line = line[1:51]+"23/3/2013"+line[60:]
-        new.write(line)
-    elif line.startswith("HELIX") and line[9]==str(n):
-        if n<len(helixSheets["Helix"])+1:
-            line = "HELIX %4s %3s %1s %1s %2s %s %s %s %s %2s %2s %34s %s \n"%(str(helixSheets["Helix"][n-1][0][1]),str(helixSheets["Helix"][n-1][1][1]),
-                                                                         str(helixSheets["Helix"][n-1][2][1]),str(helixSheets["Helix"][n-1][3][1]),
-                                                                         str(helixSheets["Helix"][n-1][4][1]),str(helixSheets["Helix"][n-1][5][1]),
-                                                                         str(helixSheets["Helix"][n-1][6][1]),str(helixSheets["Helix"][n-1][7][1]),
-                                                                         str(helixSheets["Helix"][n-1][8][1]),str(helixSheets["Helix"][n-1][9][1]),
-                                                                        str(helixSheets["Helix"][n-1][10][1]),str(helixSheets["Helix"][n-1][11][1]),
-                                                                        str(helixSheets["Helix"][n-1][12][1]))
+        if line.startswith("HEADER"):
+            line = line[1:51]+"23/3/2013"+line[60:]
             new.write(line)
-            n+=1
-    elif line.startswith("SHEET") and line[9]==str(n):
-        if n<len(helixSheets["Sheet"]):
-            line = "SHEET    %4s %3s %1s %1s %2s %s %s %s %s %s %s %2s %2s  %s %s %2s %s %s %s %2s %2s %s \n"%(str(helixSheets["Sheet"][0][0][1]),str(helixSheets["Sheet"][n][1][1]),
-                                str(helixSheets["Sheet"][n][2][1]),str(helixSheets["Sheet"][n-1][3][1]),str(helixSheets["Sheet"][n-1][4][1]),
-                                str(helixSheets["Sheet"][n-1][5][1]),str(helixSheets["Sheet"][n-1][6][1]),str(helixSheets["Sheet"][n-1][7][1]),
-                                str(helixSheets["Sheet"][n-1][8][1]),str(helixSheets["Sheet"][n-1][9][1]),str(helixSheets["Sheet"][n-1][10][1]),
-                                str(helixSheets["Sheet"][n-1][11][1]),str(helixSheets["Sheet"][n-1][12][1]),str(helixSheets["Sheet"][n-1][13][1]),
-                                str(helixSheets["Sheet"][n-1][14][1]),str(helixSheets["Sheet"][n-1][15][1]),str(helixSheets["Sheet"][n-1][16][1]),
-                                str(helixSheets["Sheet"][n-1][17][1]),str(helixSheets["Sheet"][n-1][18][1]),str(helixSheets["Sheet"][n-1][19][1]),
-                                str(helixSheets["Sheet"][n-1][20][1]),str(helixSheets["Sheet"][n-1][21][1]))
-            new.write(line)
-            n+=1
+        elif line.startswith("HELIX") and line[9]==str(n):
+            if n<len(helixSheets["Helix"])+1:
+                line = "HELIX %4s %3s %1s %1s %2s %s %s %s %s %2s %2s %34s %s \n"%(str(helixSheets["Helix"][n-1][0][1]),str(helixSheets["Helix"][n-1][1][1]),
+                                                                             str(helixSheets["Helix"][n-1][2][1]),str(helixSheets["Helix"][n-1][3][1]),
+                                                                             str(helixSheets["Helix"][n-1][4][1]),str(helixSheets["Helix"][n-1][5][1]),
+                                                                             str(helixSheets["Helix"][n-1][6][1]),str(helixSheets["Helix"][n-1][7][1]),
+                                                                             str(helixSheets["Helix"][n-1][8][1]),str(helixSheets["Helix"][n-1][9][1]),
+                                                                            str(helixSheets["Helix"][n-1][10][1]),str(helixSheets["Helix"][n-1][11][1]),
+                                                                            str(helixSheets["Helix"][n-1][12][1]))
+                new.write(line)
+                print n
+                n+=1
+        elif line.startswith("SHEET") and line[9]+line[13]==str(helixSheets["Sheet"][n-1][0][1])+str(helixSheets["Sheet"][n-1][1][1]):
+            if n<len(helixSheets["Sheet"]):
+                line = "SHEET    %4s %3s %1s %1s %2s %s %s %s %s %s %s %2s %2s  %s %s %2s %s %s %s %2s %2s %s \n"%(str(helixSheets["Sheet"][n-1][0][1]),str(helixSheets["Sheet"][n-1][1][1]),
+                                    str(helixSheets["Sheet"][n-1][2][1]),str(helixSheets["Sheet"][n-1][3][1]),str(helixSheets["Sheet"][n-1][4][1]),
+                                    str(helixSheets["Sheet"][n-1][5][1]),str(helixSheets["Sheet"][n-1][6][1]),str(helixSheets["Sheet"][n-1][7][1]),
+                                    str(helixSheets["Sheet"][n-1][8][1]),str(helixSheets["Sheet"][n-1][9][1]),str(helixSheets["Sheet"][n-1][10][1]),
+                                    str(helixSheets["Sheet"][n-1][11][1]),str(helixSheets["Sheet"][n-1][12][1]),str(helixSheets["Sheet"][n-1][13][1]),
+                                    str(helixSheets["Sheet"][n-1][14][1]),str(helixSheets["Sheet"][n-1][15][1]),str(helixSheets["Sheet"][n-1][16][1]),
+                                    str(helixSheets["Sheet"][n-1][17][1]),str(helixSheets["Sheet"][n-1][18][1]),str(helixSheets["Sheet"][n-1][19][1]),
+                                    str(helixSheets["Sheet"][n-1][20][1]),str(helixSheets["Sheet"][n-1][21][1]))
+                new.write(line)
+                n+=1
     else:
         line=line
         new.write(line)

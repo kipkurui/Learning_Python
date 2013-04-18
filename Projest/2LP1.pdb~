@@ -297,7 +297,7 @@ SEQRES   7 A  122  LEU SER LYS MET GLN GLN ASN GLY TYR GLU ASN PRO THR
 SEQRES   8 A  122  TYR LYS PHE PHE GLU GLN MET GLN ASN GLN GLY ARG ILE          
 SEQRES   9 A  122  LEU GLN ILE SER ILE THR LEU ALA ALA ALA LEU GLU HIS          
 SEQRES  10 A  122  HIS HIS HIS HIS HIS                                          
-HELIX    1   1 LYS A  687  GLY A  696  5                                  10    
+HELIX    1   1 LYS A    5  GLY A    9  5                                  10    
 HELIX    2   2 GLY A  700  GLY A  708  1                                   9    
 HELIX    3   3 GLY A  708  LYS A  724  1                                  17    
 CRYST1    1.000    1.000    1.000  90.00  90.00  90.00 P 1           1          
